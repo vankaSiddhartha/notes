@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Notes</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="taking_notes_is_never_been_easier_save_paper_store_in_binary">Taking notes is never been easier save paper store in binary</string>
+    <string name="dashbord_text">Save Store simple data in notes</string>
+    <string name="get_started">Get Started</string>
+</resources>
