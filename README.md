@@ -2,7 +2,7 @@
 
 Welcome to the Notes App! This application is designed to help you manage your notes effortlessly. It's built with a user-friendly interface and leverages several core Android development concepts. Below is a comprehensive overview of the app's features and the technology stack used.
 ## Youtube
- - Obtain a `client_id` from the [link](https://www.youtube.com/watch?v=IUufm9exn-k)
+ - app demo link [link](https://www.youtube.com/watch?v=IUufm9exn-k)
 
 ## Features
 
