@@ -1,6 +1,8 @@
 # Notes App
 
 Welcome to the Notes App! This application is designed to help you manage your notes effortlessly. It's built with a user-friendly interface and leverages several core Android development concepts. Below is a comprehensive overview of the app's features and the technology stack used.
+## Youtube
+ - Obtain a `client_id` from the [link](https://www.youtube.com/watch?v=IUufm9exn-k)
 
 ## Features
 
@@ -85,9 +87,7 @@ To set up and run the project locally, follow these steps:
 
 6. **Delete a Note:** Long press on a note to delete it and confirm the deletion in the dialog that appears.
 
-## Screenshots
 
-Include relevant screenshots of your app here to provide users with a visual overview of its functionality.
 
 ## Contributing
 
