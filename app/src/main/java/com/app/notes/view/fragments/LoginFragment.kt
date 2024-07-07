@@ -13,6 +13,7 @@ import com.app.notes.R
 import com.app.notes.databinding.FragmentLoginBinding
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import com.app.notes.dataStoreManager.SharedPreferencesManager
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -30,12 +31,20 @@ class LoginFragment : Fragment() {
         ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
         try {
+
+           val sharedPreferencesManager = SharedPreferencesManager(requireContext())
+
             val credential = oneTapClient.getSignInCredentialFromIntent(result.data)
             val idToken = credential.googleIdToken
             if (idToken != null) {
-                val email = credential.id
-                val username = credential.displayName
-                Toast.makeText(requireContext(), "Email: $email Name: $username", Toast.LENGTH_SHORT).show()
+//                val email = credential.id
+//                val username = credential.displayName
+//                Toast.makeText(requireContext(), "Email: $email Name: $username", Toast.LENGTH_SHORT).show()
+                sharedPreferencesManager.isLoggedIn = true
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, HomeFragment())
+                    .commit()
+
             }
         } catch (e: ApiException) {
             when (e.statusCode) {

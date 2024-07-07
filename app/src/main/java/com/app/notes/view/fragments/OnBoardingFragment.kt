@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.app.notes.R
 import com.app.notes.databinding.FragmentOnBordingBinding
 import com.app.notes.utils.OnBoardingMetaData
 import com.app.notes.view.adapter.OnBoardingAdapter
@@ -23,6 +24,11 @@ class OnBoardingFragment : Fragment() {
         val list  = onBoardingMetadata.getOnBoardingData()
         val adapter = OnBoardingAdapter(list,requireContext())
         binding.viewPager2.adapter = adapter
+        binding.getStartedBtn.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, LoginFragment())
+                .commit()
+        }
 
 
         return binding.root
