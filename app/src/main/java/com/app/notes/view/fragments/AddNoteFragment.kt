@@ -92,6 +92,8 @@ class AddNoteFragment : Fragment() {
                 Toast.makeText(requireContext(), "saved", Toast.LENGTH_SHORT).show()
                 viewModel.insertNote(newNote)
 
+            }else{
+                Toast.makeText(requireContext(), "Empty fields are not allowed", Toast.LENGTH_SHORT).show()
             }
         }
 
