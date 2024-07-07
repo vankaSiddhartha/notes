@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import androidx.core.content.ContextCompat
-import com.app.notes.view.fragments.OnBoarding
+import com.app.notes.view.fragments.LoginFragment
+import com.app.notes.view.fragments.OnBoardingFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
         setContentView(R.layout.activity_main)
-        val fragment = OnBoarding()
+        val fragment = LoginFragment()
         window.statusBarColor = Color.parseColor("#232C4B")
 
 
