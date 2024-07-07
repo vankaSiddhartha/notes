@@ -1,58 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="160dp"
+    app:cardBackgroundColor="@color/black"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/note_gradient"
-        android:padding="16dp">
+        android:padding="12dp">
 
         <TextView
-            android:id="@+id/noteTitle"
+            android:id="@+id/noteTitleTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/white"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:maxLines="1"
+            android:textColor="@color/white"
+            android:maxLines="2"
             android:ellipsize="end"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="Note Title"/>
-
+            tools:text="Note Title" />
         <TextView
-            android:id="@+id/noteContent"
+            android:id="@+id/noteContentTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@color/white"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:layout_marginTop="4dp"
-            app:layout_constraintTop_toBottomOf="@id/noteTitle"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/noteTitleTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="Note content preview..."/>
+            tools:text="This is the content of the note. It can be multiple lines long but will be limited to show only a portion of the text." />
+
 
         <TextView
-            android:id="@+id/noteDate"
+            android:id="@+id/noteTimeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/noteContentTextView"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/noteContent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="Date"/>
+            tools:text="2023-04-20 15:30" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

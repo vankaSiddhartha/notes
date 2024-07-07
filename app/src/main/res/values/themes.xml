@@ -3,6 +3,8 @@
     <style name="Base.Theme.Notes" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/white</item>
+
     </style>
 
     <style name="Theme.Notes" parent="Base.Theme.Notes" />
@@ -17,10 +19,10 @@
         <item name="android:textColorHint">@color/search_hint_color</item>
 
         <!-- This sets the color of the search icon and other icons -->
-        <item name="colorControlNormal">@color/search_icon_color</item>
+        <item name="colorControlNormal">@color/white</item>
 
         <!-- This sets the color of the cursor -->
-        <item name="colorControlActivated">@color/search_cursor_color</item>
+        <item name="colorControlActivated">@color/white</item>
     </style>
     <style name="ShapeAppearanceOverlay.FAB.Circular" parent="">
         <item name="cornerFamily">rounded</item>

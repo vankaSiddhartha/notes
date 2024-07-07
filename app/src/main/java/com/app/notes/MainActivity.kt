@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import com.app.notes.view.fragments.HomeFragment
 import com.app.notes.view.fragments.LoginFragment
 import com.app.notes.view.fragments.OnBoardingFragment
 
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
         setContentView(R.layout.activity_main)
-        val fragment = LoginFragment()
+        val fragment = HomeFragment()
         window.statusBarColor = Color.parseColor("#232C4B")
 
 
@@ -35,5 +36,10 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, fragment)
             .commit()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
     }
 }

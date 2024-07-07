@@ -5,56 +5,76 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import com.app.notes.R
+import com.app.notes.databinding.FragmentHomeBinding
+import com.app.notes.model.NotesModel
+import com.app.notes.view.adapter.NotesAdapter
+import com.app.notes.viewModel.NotesViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
+   private lateinit var binding:FragmentHomeBinding
+    private lateinit var viewModel: NotesViewModel
+    private lateinit var filter:List<NotesModel>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View? {
+        filter = emptyList()
+        binding = FragmentHomeBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(requireActivity())[NotesViewModel::class.java]
+        // Retrieve the arguments
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val fragment = AddNoteFragment()
+        binding.floatingActionButton.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container,fragment )
+                .commit()
+        }
+        val adapter = NotesAdapter(emptyList(),requireContext(),requireActivity())
+        val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvHome.layoutManager = gridLayoutManager
+        viewModel.notes.observe(requireActivity()) { notes ->
+            adapter.update(notes)
+            filter = notes
+        }
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // Filter the list based on the submitted query
+                val filteredNotes = filter.filter { note ->
+                    note.title?.lowercase()?.contains(query.toString().lowercase()) ?: false
+                }
+              //  Toast.makeText(requireContext(), "$filter", Toast.LENGTH_SHORT).show()
+                // Update the adapter with the filtered list
+                adapter.update(filteredNotes)
+                return false // Return false to indicate we've handled the submit event
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // Filter the list as the user types
+            //    filterNotes(newText ?: "")
+                val filteredNotes = filter.filter { note ->
+                    note.title?.lowercase()?.contains(newText.toString().lowercase()) ?: false
+                }
+               // Toast.makeText(requireContext(), "$filter", Toast.LENGTH_SHORT).show()
+                // Update the adapter with the filtered list
+              //  Toast.makeText(requireContext(), "$filteredNotes", Toast.LENGTH_SHORT).show()
+                adapter.update(filteredNotes)
+                return false // Return false to indicate we've handled the change event
+            }
+        })
+        binding.rvHome.adapter = adapter
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
 }
