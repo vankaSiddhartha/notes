@@ -2,7 +2,7 @@ package com.app.notes.utils
 
 import com.app.notes.R
 import com.app.notes.model.OnBoardingModel
-
+//// Class to provide onboarding data for the app
 class OnBoardingMetaData {
     fun getOnBoardingData(): List<OnBoardingModel> {
         return listOf(

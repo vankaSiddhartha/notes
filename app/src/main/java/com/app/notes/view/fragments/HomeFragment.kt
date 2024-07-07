@@ -15,7 +15,7 @@ import com.app.notes.model.NotesModel
 import com.app.notes.view.adapter.NotesAdapter
 import com.app.notes.viewModel.NotesViewModel
 
-
+//home fragment
 class HomeFragment : Fragment() {
 
 
@@ -27,18 +27,20 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
 
     ): View? {
+        //initialize filter
         filter = emptyList()
+        // initialize binding and viewmodel
         binding = FragmentHomeBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[NotesViewModel::class.java]
-        // Retrieve the arguments
 
-        // Inflate the layout for this fragment
         val fragment = AddNoteFragment()
+        //handling floataction button
         binding.floatingActionButton.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container,fragment )
                 .commit()
         }
+ // Initialize RecyclerView adapter and layout manager
         val adapter = NotesAdapter(emptyList(),requireContext(),requireActivity())
         val gridLayoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvHome.layoutManager = gridLayoutManager
@@ -46,29 +48,26 @@ class HomeFragment : Fragment() {
             adapter.update(notes)
             filter = notes
         }
+        // SearchView setup for filtering notes based on title
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // Filter the list based on the submitted query
                 val filteredNotes = filter.filter { note ->
                     note.title?.lowercase()?.contains(query.toString().lowercase()) ?: false
                 }
-              //  Toast.makeText(requireContext(), "$filter", Toast.LENGTH_SHORT).show()
-                // Update the adapter with the filtered list
                 adapter.update(filteredNotes)
-                return false // Return false to indicate we've handled the submit event
+                return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 // Filter the list as the user types
-            //    filterNotes(newText ?: "")
+
                 val filteredNotes = filter.filter { note ->
                     note.title?.lowercase()?.contains(newText.toString().lowercase()) ?: false
                 }
-               // Toast.makeText(requireContext(), "$filter", Toast.LENGTH_SHORT).show()
-                // Update the adapter with the filtered list
-              //  Toast.makeText(requireContext(), "$filteredNotes", Toast.LENGTH_SHORT).show()
+
                 adapter.update(filteredNotes)
-                return false // Return false to indicate we've handled the change event
+                return false
             }
         })
         binding.rvHome.adapter = adapter

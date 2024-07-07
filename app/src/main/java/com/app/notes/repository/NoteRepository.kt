@@ -3,7 +3,7 @@ package com.app.notes.repository
 import android.content.Context
 import com.app.notes.database.NotesDatabase
 import com.app.notes.model.NotesModel
-
+// Repository class to manage operations related to notes using NotesDatabase
 class NotesRepository(context: Context) {
     private val database = NotesDatabase(context)
 

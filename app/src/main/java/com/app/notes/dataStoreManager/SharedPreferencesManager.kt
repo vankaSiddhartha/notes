@@ -2,7 +2,7 @@ package com.app.notes.dataStoreManager
 
 import android.content.Context
 import android.content.SharedPreferences
-
+// Manages login state using SharedPreferences
 class SharedPreferencesManager(context: Context) {
     companion object {
         private const val PREF_NAME = "LoginPrefs"

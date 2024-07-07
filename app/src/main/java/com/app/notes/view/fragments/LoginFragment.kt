@@ -20,27 +20,27 @@ import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.snackbar.Snackbar
-
+// Fragment for handling user login via Google One Tap sign-in
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var oneTapClient: SignInClient
     private lateinit var signUpRequest: BeginSignInRequest
     private lateinit var btnGoogle: Button
-
+    // Activity result launcher for handling One Tap sign-in result
     private val activityResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
         try {
-
+            // Initialize SharedPreferencesManager for managing login state
            val sharedPreferencesManager = SharedPreferencesManager(requireContext())
-
+            // Retrieve Google credential from the sign-in result
             val credential = oneTapClient.getSignInCredentialFromIntent(result.data)
             val idToken = credential.googleIdToken
             if (idToken != null) {
-//                val email = credential.id
-//                val username = credential.displayName
-//                Toast.makeText(requireContext(), "Email: $email Name: $username", Toast.LENGTH_SHORT).show()
+                // Successfully retrieved Google ID token, user is considered logged in
                 sharedPreferencesManager.isLoggedIn = true
+
+                // Navigate to the HomeFragment upon successful login
                 requireActivity().supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container, HomeFragment())
                     .commit()
@@ -71,24 +71,26 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        // Initialize views and Google SignInClient
         btnGoogle = binding.getStartedBtn
+        val serverClientId = getString(R.string.web_client)
         oneTapClient = Identity.getSignInClient(requireActivity())
+        // Build sign-in request with Google ID token options
         signUpRequest = BeginSignInRequest.builder()
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
-                    .setServerClientId("702714662053-ko65qiqbqnp5hiutmfam2argmbe9ccdf.apps.googleusercontent.com")
+                    .setServerClientId(serverClientId)
                     .setFilterByAuthorizedAccounts(false)
                     .build()
             )
             .build()
-
+        // Set click listener for Google sign-in button
         btnGoogle.setOnClickListener {
             startSignInIntent()
         }
     }
-
+    // Function to start One Tap sign-in flow
     private fun startSignInIntent() {
         oneTapClient.beginSignIn(signUpRequest)
             .addOnSuccessListener { result ->

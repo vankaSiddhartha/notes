@@ -11,7 +11,7 @@ import com.app.notes.R
 import com.app.notes.databinding.NoteItemBinding
 import com.app.notes.model.NotesModel
 import com.app.notes.view.fragments.AddNoteFragment
-
+//notes adapter to show notes
 class NotesAdapter(private var list: List<NotesModel>,private val context: Context,private val activity: FragmentActivity): RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
     fun update(newList: List<NotesModel>){
         notifyDataSetChanged()
@@ -34,14 +34,12 @@ class NotesAdapter(private var list: List<NotesModel>,private val context: Conte
         holder.binding.noteTitleTextView.text = list[position].title
         holder.binding.noteContentTextView.text = list[position].note.toString()
         holder.binding.noteTimeTextView.text = list[position].time
-      //  val bundle = Bundle()
         val bundle = Bundle()
         bundle.putInt("id", list[position].id)
         bundle.putString("title", list[position].title)
         bundle.putString("content",list[position].note)
         holder.binding.root.setOnClickListener {
            fragment.arguments = bundle
-         //   Toast.makeText(context, list[position].toString(), Toast.LENGTH_SHORT).show()
             activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit()

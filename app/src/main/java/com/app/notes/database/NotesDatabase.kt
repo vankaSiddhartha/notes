@@ -5,8 +5,10 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.app.notes.model.NotesModel
+// SQLiteOpenHelper class for managing notes database
 
 class NotesDatabase(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+    // Constants for database details
     companion object {
         private const val DATABASE_NAME = "notes_database"
         private const val DATABASE_VERSION = 1
@@ -16,7 +18,7 @@ class NotesDatabase(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, n
         private const val COLUMN_TITLE = "title"
         private const val COLUMN_TIME = "time"
     }
-
+    // Method called when the database is created for the first time
     override fun onCreate(db: SQLiteDatabase?) {
         val createTableQuery = """
             CREATE TABLE $TABLE_NAME (
@@ -28,11 +30,12 @@ class NotesDatabase(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, n
         """.trimIndent()
         db?.execSQL(createTableQuery)
     }
-
+    // Method called when the database needs to be upgraded
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
         onCreate(db)
     }
+    // Method to insert a new note into the database
     fun insertNote(note: NotesModel): Long {
         val db = this.writableDatabase
         val values = ContentValues().apply {
@@ -42,7 +45,7 @@ class NotesDatabase(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, n
         }
         return db.insert(TABLE_NAME, null, values)
     }
-
+ //  method to get all notes
     fun getAllNotes(): List<NotesModel> {
         val notesList = mutableListOf<NotesModel>()
         val db = this.readableDatabase
@@ -62,7 +65,7 @@ class NotesDatabase(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, n
         }
         return notesList
     }
-
+  // method to update notes
     fun updateNote(note: NotesModel): Int {
         val db = this.writableDatabase
         val values = ContentValues().apply {
@@ -72,7 +75,7 @@ class NotesDatabase(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, n
         }
         return db.update(TABLE_NAME, values, "$COLUMN_ID = ?", arrayOf(note.id.toString()))
     }
-
+  // method to delete note
     fun deleteNote(noteId: Int): Int {
         val db = this.writableDatabase
         return db.delete(TABLE_NAME, "$COLUMN_ID = ?", arrayOf(noteId.toString()))

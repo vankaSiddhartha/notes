@@ -1,6 +1,7 @@
 package com.app.notes.view.fragments
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,7 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-
+// adding notes fragment
 class AddNoteFragment : Fragment() {
  private lateinit var binding:FragmentAddnoteBinding
  private lateinit var viewModel:NotesViewModel
@@ -32,20 +34,23 @@ class AddNoteFragment : Fragment() {
         binding = FragmentAddnoteBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[NotesViewModel::class.java]
          binding.dateTimeText.text = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
-        // Inflate the layout for this fragment
+        // Retrieve title, content, and id from arguments if they exist
         val title = arguments?.getString("title")
         val content = arguments?.getString("content")
         val id = arguments?.getInt("id")
-         if (title!=null && content !=null){
+        // If title and content exist, populate EditTexts and word count TextView
+        if (title!=null && content !=null){
              binding.titleEditText.setText(title.toString())
              binding.contentEditText.setText(content)
              binding.wordCountText.text = content.length.toString()+" words"
              binding.contentEditText.setSelection(content.length)
 
          }
+        // Handle back button click
         binding.backButton.setOnClickListener {
-            navigationBackWithDataSavedInDB(id)
+          navigateBack()
         }
+        // Handle dustbin (delete) button click
         binding.dustbin.setOnClickListener {
             if (id != null) {
               showDeleteConfirmationDialog(id)
@@ -53,6 +58,7 @@ class AddNoteFragment : Fragment() {
                 navigateBack()
             }
         }
+        // Update word count dynamically as the contentEditText text changes
         binding.contentEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 // Update word count after the text changes
@@ -67,6 +73,7 @@ class AddNoteFragment : Fragment() {
                 // No action needed while the text is changing
             }
         })
+        //handle save button
         binding.save.setOnClickListener {
 
             val title = binding.titleEditText.text.toString()
@@ -90,6 +97,7 @@ class AddNoteFragment : Fragment() {
 
         return binding.root
     }
+    // Function to display a confirmation dialog before deleting a note
     private fun showDeleteConfirmationDialog(id:Int) {
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
         alertDialogBuilder.setTitle("Delete Confirmation")
@@ -122,6 +130,7 @@ class AddNoteFragment : Fragment() {
             Toast.makeText(requireContext(), "The text is not saved", Toast.LENGTH_SHORT).show()
         }
     }
+    // Function to navigate back to the home fragment
     private fun navigateBack() {
         // Get the FragmentManager
           val fragment = HomeFragment()
@@ -129,27 +138,12 @@ class AddNoteFragment : Fragment() {
         requireActivity().supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, fragment)
             .commit()
+        //hiding the keybord
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
-    private fun navigationBackWithDataSavedInDB(id: Int?){
-        val title = binding.titleEditText.text.toString()
-        val note = binding.contentEditText.text.toString()
-        val time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
-        if (id != null && title.isNotEmpty() && note.isNotEmpty()){
-            val newNote = NotesModel(id = id.toInt() ,note = note, title = title, time = time)
 
-            viewModel.updateNote(newNote)
-           // Toast.makeText(requireContext(), "updated", Toast.LENGTH_SHORT).show()
-            navigateBack()
 
-        }else if (title.isNotEmpty() && note.isNotEmpty()) {
-            val newNote = NotesModel(note = note, title = title, time = time)
-
-           // Toast.makeText(requireContext(), "saved", Toast.LENGTH_SHORT).show()
-            viewModel.insertNote(newNote)
-
-        }
-        navigateBack()
-    }
 
 
 }
