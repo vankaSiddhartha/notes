@@ -6,4 +6,24 @@
     </style>
 
     <style name="Theme.Notes" parent="Base.Theme.Notes" />
+    <style name="CustomSearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <!-- This sets the color of the query text -->
+        <item name="android:textColor">@color/search_text_color</item>
+
+        <!-- This sets the color of the text in the search box as you type -->
+        <item name="android:editTextColor">@color/search_text_color</item>
+
+        <!-- This sets the color of the hint text -->
+        <item name="android:textColorHint">@color/search_hint_color</item>
+
+        <!-- This sets the color of the search icon and other icons -->
+        <item name="colorControlNormal">@color/search_icon_color</item>
+
+        <!-- This sets the color of the cursor -->
+        <item name="colorControlActivated">@color/search_cursor_color</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.FAB.Circular" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>
